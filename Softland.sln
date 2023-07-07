@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softland", "Softland\Softland.csproj", "{930F2C67-A66E-49DE-B275-9D2AD725AEF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftlandAPI", "SoftlandAPI\SoftlandAPI.csproj", "{88CFFE23-E7E6-4B1D-9A83-822C25465B79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{930F2C67-A66E-49DE-B275-9D2AD725AEF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{930F2C67-A66E-49DE-B275-9D2AD725AEF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{930F2C67-A66E-49DE-B275-9D2AD725AEF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{930F2C67-A66E-49DE-B275-9D2AD725AEF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE3A6FB9-57F7-4247-8E26-8095F977293F}
+	EndGlobalSection
+EndGlobal
