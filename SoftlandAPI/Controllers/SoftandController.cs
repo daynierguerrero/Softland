@@ -16,7 +16,7 @@ namespace SoftlandAPI.Controllers
 
             SoftlandIntegration soflandIntegration= new SoftlandIntegration();
             string doc1 = "FA-33-229013-81140300-8.xml";
-            string doc2 = "FX-110-928-77565357-4.xml";
+            string doc2 = "FA-33-530-77491280-0.xml";
             //Creo los Objetos de tipo XMLDocument
             XmlDocument xmlDocDTE = new XmlDocument();
             XmlDocument xmlDocConfiguration = new XmlDocument();
@@ -25,20 +25,12 @@ namespace SoftlandAPI.Controllers
             xmlDocDTE.Load(doc2);
             //xmlDocConfiguration.Load(@"tranform.xml");
 
-
-
-
            
                 string cadenaConexion = "Data Source=.\\SQL2017;Initial Catalog=Softland;Persist Security Info=True;User ID=sa;Password=Versat2022*";
-                int tipoDTE = 1;
-                DateTime fechEmis = DateTime.Now;
-            int folioFactura = 1;
-            string rutEmisor = "sadadaf";
-            string rutaError = "asdsfsdf";
-            string nameFile = "fsdfsdf";
-            string spCabecera = "SpCabecera";
+            
+                string spCabecera = "SpCabecera";
 
-            return soflandIntegration.ProcesaCabecera(xmlDocDTE, cadenaConexion, tipoDTE, fechEmis, folioFactura, rutEmisor, rutaError, nameFile, spCabecera);
+            return soflandIntegration.ProcesaCabecera(xmlDocDTE, cadenaConexion, spCabecera);
            
         }
 
