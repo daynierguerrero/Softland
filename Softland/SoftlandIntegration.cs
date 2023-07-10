@@ -33,6 +33,7 @@ namespace Softland
                 commandCabecera.CommandType = CommandType.StoredProcedure;
                 commandDetalle.CommandType = CommandType.StoredProcedure;
                 CultureInfo provider = new CultureInfo("es-CL");
+                int tesCounter = 0;
 
 
                 //Obtengo el el listado de nodos donde se especifican los diferentes fields
@@ -41,6 +42,8 @@ namespace Softland
                 //Itero cada uno de los nodos <field>
                 foreach (XmlNode xmlConfigurationTagField in xmlConfigurationTagFieldList)
                 {
+
+
                     //Procedimiento a utilizar
                     var procedimiento = xmlConfigurationTagField.SelectSingleNode("procedimiento").InnerText;
 
@@ -95,18 +98,29 @@ namespace Softland
                             // cantDetalle++;
 
 
+                            if (tipoDato == "Int")
+                            {
+                                if (xmlNode["NroLinDet"] != null)
+                                {
+                                    commandDetalle.Parameters.Add("@NroLinDet", SqlDbType.Int);
+                                    commandDetalle.Parameters["@NroLinDet"].Value = int.Parse(xmlNode["NroLinDet"].InnerText);
+                                }
+                                else
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@NroLinDet", SqlDbType.Int).Value = nodo;
+                                }
+                                nodo++;
+                            }
+
+
+
+                            if (tesCounter == 0)
+                            {
 
                             
-                            if (xmlNode["NroLinDet"] != null)
-                            {
-                                commandDetalle.Parameters.Add("@NroLinDet", SqlDbType.Int);
-                                commandDetalle.Parameters["@NroLinDet"].Value = int.Parse(xmlNode["NroLinDet"].InnerText);
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@NroLinDet", SqlDbType.Int).Value = nodo;
-                            }
-                            nodo++;
+
+                            #region Fijo
+
                             // command.Parameters.AddWithValue("@TipoDTE ", SqlDbType.Int).Value = tipoDTE;
                             // command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = folioFactura;
                             // command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.Int).Value = rutEmisor;
@@ -168,47 +182,71 @@ namespace Softland
                             }
 
 
+                                #endregion
 
-                            if (xmlNode["factor_conversion"] != null)
+                            }
+                            tesCounter++;
+
+                            if (tipoDato == "Decimal" && parametro == "@Factor")
                             {
-                                commandDetalle.Parameters.Add(new SqlParameter("@Factor", SqlDbType.Decimal)
+                                if (xmlNode["factor_conversion"] != null)
                                 {
-                                    Precision = 18,
-                                    Scale = 6
-                                }).Value = Decimal.Parse(xmlNode["factor_conversion"].InnerText.Replace(".", ","), provider);
+                                    commandDetalle.Parameters.Add(new SqlParameter("@Factor", SqlDbType.Decimal)
+                                    {
+                                        Precision = 18,
+                                        Scale = 6
+                                    }).Value = Decimal.Parse(xmlNode["factor_conversion"].InnerText.Replace(".", ","), provider);
+                                }
+                                else
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@Factor", SqlDbType.Decimal).Value = 0;
+                                }
                             }
-                            else
+
+
+                            else if (tipoDato == "Decimal" && parametro == "@MontoItem")
                             {
-                                commandDetalle.Parameters.AddWithValue("@Factor", SqlDbType.Decimal).Value = 0;
+                                if (xmlNode["MontoItem"] != null)
+                                {
+                                    var x = Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
+                                    commandDetalle.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
+                                }
+                                else
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = DBNull.Value;
+
+                                }
                             }
-                            if (xmlNode["MontoItem"] != null)
+
+                            else if (tipoDato == "VarChar" && parametro == "@CentroCosto")
                             {
-                                var x = Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
-                                commandDetalle.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = DBNull.Value;
+                                if (xmlNode["centrocosto"] != null)
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = xmlNode["centrocosto"].InnerText;
+                                }
+                                else
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = DBNull.Value;
+
+                                }
 
                             }
-                            if (xmlNode["centrocosto"] != null)
-                            {
-                                commandDetalle.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = xmlNode["centrocosto"].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = DBNull.Value;
 
-                            }
-                            if (xmlNode["cuentacontable"] != null)
-                            {
-                                commandDetalle.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = xmlNode["cuentacontable"].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = DBNull.Value;
 
+
+                            else if (tipoDato == "VarChar" && parametro == "@CuentaContable")
+                            {
+                                if (xmlNode["cuentacontable"] != null)
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = xmlNode["cuentacontable"].InnerText;
+                                }
+                                else
+                                {
+                                    commandDetalle.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = DBNull.Value;
+
+                                }
                             }
+                            
                             //command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = listaNodosDTE.Count == cantDetalle ? 1 : 0;
                             //command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = DBNull.Value;
 

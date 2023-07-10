@@ -436,10 +436,45 @@
         <nombreEtiquetaPadre>NroLinDet</nombreEtiquetaPadre>
         <nombreEtiqueta>NroLinDet</nombreEtiqueta>
         <parametro>@NroLinDet</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
-    
+    <field>
+        <procedimiento>SpDetalle</procedimiento>
+        <nombreEtiquetaPadre>factor_conversion</nombreEtiquetaPadre>
+        <nombreEtiqueta>factor_conversion</nombreEtiqueta>
+        <parametro>@Factor</parametro>
+        <tipoDato>Decimal</tipoDato>
+        <formato></formato>
+        <valorPorDefecto></valorPorDefecto>
+    </field>
+    <field>
+        <procedimiento>SpDetalle</procedimiento>
+        <nombreEtiquetaPadre>MontoItem</nombreEtiquetaPadre>
+        <nombreEtiqueta>MontoItem</nombreEtiqueta>
+        <parametro>@MontoItem</parametro>
+        <tipoDato>Decimal</tipoDato>
+        <formato></formato>
+        <valorPorDefecto></valorPorDefecto>
+    </field>
+    <field>
+        <procedimiento>SpDetalle</procedimiento>
+        <nombreEtiquetaPadre>centrocosto</nombreEtiquetaPadre>
+        <nombreEtiqueta>centrocosto</nombreEtiqueta>
+        <parametro>@CentroCosto</parametro>
+        <tipoDato>VarChar</tipoDato>
+        <formato></formato>
+        <valorPorDefecto></valorPorDefecto>
+    </field>
+    <field>
+        <procedimiento>SpDetalle</procedimiento>
+        <nombreEtiquetaPadre>cuentacontable</nombreEtiquetaPadre>
+        <nombreEtiqueta>cuentacontable</nombreEtiqueta>
+        <parametro>@CuentaContable</parametro>
+        <tipoDato>VarChar</tipoDato>
+        <formato></formato>
+        <valorPorDefecto></valorPorDefecto>
+    </field>
    
 </Transform>
