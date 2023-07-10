@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -20,13 +22,19 @@ namespace Softland
         public int ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
         {
             int newProdID = 0;
+            SqlConnection connection = new SqlConnection(cadenaConexion);
+            connection.Open();
+            SqlTransaction trans = connection.BeginTransaction();
             try
             {
-                SqlConnection connection = new SqlConnection(cadenaConexion);
+                
                 
                 SqlCommand commandCabecera = new SqlCommand("spCabecera", connection);
 
+                commandCabecera.Transaction = trans;
+
                 XmlNodeList listaNodosRec = doc.GetElementsByTagName("recepcion");
+
                 bool conRec = listaNodosRec.Count == 0 ? false : true;
 
 
@@ -35,6 +43,9 @@ namespace Softland
                 
                 CultureInfo provider = new CultureInfo("es-CL");
                 int tesCounter = 0;
+
+
+                
 
 
                 //Obtengo el el listado de nodos donde se especifican los diferentes fields
@@ -184,7 +195,7 @@ namespace Softland
                 }
 
                 commandCabecera.CommandTimeout = 0;
-                connection.Open();
+                //connection.Open();
                 string descError = "Todo OK";
 
                 var res = commandCabecera.ExecuteScalar();
@@ -212,7 +223,7 @@ namespace Softland
                     }
                 }
 
-                connection.Close();
+                //connection.Close();
 
 
 
@@ -223,6 +234,7 @@ namespace Softland
                 foreach (XmlNode xmlNode in listaNodosDTEDetalles)
                 {
                     SqlCommand commandDetalle = new SqlCommand("spDetalle", connection);
+                    commandDetalle.Transaction = trans;
                     commandDetalle.CommandType = CommandType.StoredProcedure;
                     tesCounter++; 
                     // cantDetalle++;
@@ -402,9 +414,9 @@ namespace Softland
 
 
                     commandDetalle.CommandTimeout = 0;
-                    connection.Open();
+                    //connection.Open();
                     commandDetalle.ExecuteNonQuery();
-                    connection.Close();
+                    //connection.Close();
 
                 }
 
@@ -440,6 +452,8 @@ namespace Softland
 
 
                 ///fin detalle
+                ///
+                trans.Commit();
 
 
                 return newProdID;
@@ -447,11 +461,10 @@ namespace Softland
             }
             catch
             {
+                trans.Rollback();
                 return 1;
             }
-            finally
-            {
-            }
+            
         }
 
 
