@@ -31,7 +31,7 @@
             <GiroEmis>AGENCIA DE CARGA (FREIGHT FORWARDER)</GiroEmis>
             <CorreoEmisor>cfigueroa@af.cl</CorreoEmisor>
             <Acteco>522190</Acteco>
-            <Sucursal>Casa Matríz</Sucursal>
+            <Sucursal>Casa Matrï¿½z</Sucursal>
             <DirOrigen>AVDA EDUARDO FREI MONTALV #6001 DEPTO. #58</DirOrigen>
             <CmnaOrigen>CONCHALI</CmnaOrigen>
             <CiudadOrigen>Santiago</CiudadOrigen>
@@ -54,6 +54,20 @@
         </Encabezado>
         <Detalle>
           <NroLinDet>1</NroLinDet>
+          <NmbItem>SERVICIOS ENERO</NmbItem>
+          <DscItem>Fecha	     N Invoice	           Total US$	     T/C	   Total $
+				
+31-01-23	INVOICES SKYNET 	300,40	804,28	 241.608 
+31-01-23	2011-583 (d)	                234,00	804,28	 188.202 
+20-01-23	2011-582 (d)	                411,50	821,02	 337.853 
+09-01-23	2011-581 (d)	                614,50	837,19	 514.457 
+31-01-23	MEMBRESIA	               -250,00	804,28	-201.070</DscItem>
+          <QtyItem>1</QtyItem>
+          <PrcItem>1081050</PrcItem>
+          <MontoItem>1081050</MontoItem>
+        </Detalle>
+             <Detalle>
+          <NroLinDet>2</NroLinDet>
           <NmbItem>SERVICIOS ENERO</NmbItem>
           <DscItem>Fecha	     N Invoice	           Total US$	     T/C	   Total $
 				
