@@ -19,34 +19,31 @@ namespace Softland
     public class SoftlandIntegration
     {
 
-        public int ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
+        public string ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
         {
-            int newProdID = 0;
+            //int newProdID = 0;
+            //Se crea la conexion
             SqlConnection connection = new SqlConnection(cadenaConexion);
+
+            //Se abre la conexion
             connection.Open();
+
+            //Se crea una transaccion para la conexion
             SqlTransaction trans = connection.BeginTransaction();
+
             try
             {
-                
-                
+                //Se crea el comando para la cabecera                
                 SqlCommand commandCabecera = new SqlCommand("spCabecera", connection);
 
+                //Se le asigna la transaccion creada al comando de la cabecera
                 commandCabecera.Transaction = trans;
 
-                XmlNodeList listaNodosRec = doc.GetElementsByTagName("recepcion");
-
-                bool conRec = listaNodosRec.Count == 0 ? false : true;
-
-
-
+                //Se define el tipo de comando al comando de la cabecera
                 commandCabecera.CommandType = CommandType.StoredProcedure;
-                
+
+                //Se define cultureProvider
                 CultureInfo provider = new CultureInfo("es-CL");
-                int tesCounter = 0;
-
-
-                
-
 
                 //Obtengo el el listado de nodos donde se especifican los diferentes fields
                 XmlNodeList xmlConfigurationTagFieldList = xmlDocConfiguration.SelectNodes("/Transform/field[position() <= 500]");
@@ -74,26 +71,27 @@ namespace Softland
                     //Nombre Etiqueta Padre
                     var nombreEtiquetaPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
 
+                    //Procesamiento de la Cabecera
                     if (procedimiento == "SpCabecera")
                     {
+                        //Obtengo los nodos del Encbezado
                         XmlNodeList listaNodosDTE = doc.GetElementsByTagName("Encabezado");
+
+                        //Recorro los nodos del encabezado
                         foreach (XmlNode xmlNode in listaNodosDTE)
                         {
-
-
+                            //Se agregan los valores a los parametros del SP Cabecera
                             if (xmlNode[nombreEtiquetaPadre] != null)
                             {
                                 if (tipoDato == "Int")
                                 {
                                     if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
                                     {
-
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
                                     }
                                     else
                                     {
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
-
                                     }
                                 }
                                 else if (tipoDato == "DateTime")
@@ -105,7 +103,6 @@ namespace Softland
                                     else
                                     {
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
-
                                     }
                                 }
                                 else if (tipoDato == "VarChar")
@@ -117,7 +114,6 @@ namespace Softland
                                     else
                                     {
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
-
                                     }
                                 }
                                 else if (tipoDato == "NChar")
@@ -129,31 +125,13 @@ namespace Softland
                                     else
                                     {
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
-
                                     }
                                 }
-
-
-
                             }
                         }
                     }
-                    //Detalle
-                    else
-                    {
-
-                        
-
-                    }
-
-
                 }
-
-
-
-
-                ///fin del recorrido de los nodos field
-
+                //Se insertan en null los parametros que no aparecen en el DTE
                 commandCabecera.Parameters.AddWithValue("@Tara", SqlDbType.Int).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@CodUnidMedTara", SqlDbType.Int).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@PesoBruto", SqlDbType.Int).Value = DBNull.Value;
@@ -169,6 +147,7 @@ namespace Softland
                 commandCabecera.Parameters.AddWithValue("@EmisorSello", SqlDbType.VarChar).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@MntFlete", SqlDbType.VarChar).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@MntSeguro", SqlDbType.VarChar).Value = DBNull.Value;
+
 
                 var folioReferencia = "";
                 XmlNodeList listaNodosDTE1 = doc.GetElementsByTagName("Encabezado/Referencia");
@@ -195,49 +174,24 @@ namespace Softland
                 }
 
                 commandCabecera.CommandTimeout = 0;
-                //connection.Open();
-                string descError = "Todo OK";
-
-                var res = commandCabecera.ExecuteScalar();
-                if (res == null)
-                {
-                    res = 0;
-                }
-                newProdID = (Int32)res;
-                if (newProdID != 0)
-                {
-                    //Obtener descripcion error
-                    //Si no aparece mensaje generico
-                    string[] keysRuts = ConfigurationManager.AppSettings.AllKeys;
-                    foreach (var llave in keysRuts)
-                    {
-                        if (llave.StartsWith("DescripcionError"))
-                        {
-                            var resto = llave.Substring(16, llave.Length - 16);
-                            if (resto.Equals(newProdID.ToString()))
-                            {
-                                descError = ConfigurationManager.AppSettings[llave];
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                //connection.Close();
+                commandCabecera.ExecuteScalar();
 
 
-
-                //Ejecuto detalles
+                //Procesamiento de los detalles
                 int nodo = 0;
+
+                //Se obtienen los nodos Detalle
                 XmlNodeList listaNodosDTEDetalles = doc.GetElementsByTagName("Detalle");
 
+                //Se recorren los nodos Detalle
                 foreach (XmlNode xmlNode in listaNodosDTEDetalles)
                 {
+                    //Se crea en command para los detalles
                     SqlCommand commandDetalle = new SqlCommand("spDetalle", connection);
+
+                    //Se asigna la transaccion al command
                     commandDetalle.Transaction = trans;
                     commandDetalle.CommandType = CommandType.StoredProcedure;
-                    tesCounter++; 
-                    // cantDetalle++;
 
                     //Itero cada uno de los nodos <field>
                     foreach (XmlNode xmlConfigurationTagField in xmlConfigurationTagFieldList)
@@ -261,7 +215,7 @@ namespace Softland
                         //Nombre Etiqueta Padre
                         var nombreEtiquetaPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
 
-
+                        //Asigno los parametros al SP Detalle
                         if (procedimiento == "SpDetalle")
                         {
                             if (tipoDato == "Int")
@@ -277,10 +231,6 @@ namespace Softland
                                 }
                                 nodo++;
                             }
-
-
-
-                            
 
                             if (tipoDato == "Decimal" && parametro == "@Factor")
                             {
@@ -328,213 +278,84 @@ namespace Softland
                             }
                         }
 
-                        
-
 
                     }
 
+                    XmlNodeList listaNodosDTEEncabezado = doc.GetElementsByTagName("Encabezado");
+                    foreach (XmlNode xmlNodeEncabezado in listaNodosDTEEncabezado)
+                    {
 
-                    
-
-
-                        #region Fijo
-
-                        // command.Parameters.AddWithValue("@TipoDTE ", SqlDbType.Int).Value = tipoDTE;
-                        // command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = folioFactura;
-                        // command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.Int).Value = rutEmisor;
-                        //command.Parameters.AddWithValue("@RUTReceptor", SqlDbType.Int).Value = rutReceptor;
-
-                        XmlNodeList listaNodosDTEEncabezado = doc.GetElementsByTagName("Encabezado");
-                        foreach (XmlNode xmlNodeEncabezado in listaNodosDTEEncabezado)
+                        if (xmlNodeEncabezado["IdDoc"] != null)
                         {
-
-                            if (xmlNodeEncabezado["IdDoc"] != null)
+                            //((((System.Xml.XmlElementList)(xmlNode["IdDoc"].GetElementsByTagName("TipoDespacho")))).curElem).InnerText
+                            if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE").Count != 0)
                             {
-                                //((((System.Xml.XmlElementList)(xmlNode["IdDoc"].GetElementsByTagName("TipoDespacho")))).curElem).InnerText
-                                if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE").Count != 0)
-                                {
 
-                                    commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE")[0].InnerText;
-                                }
-                                else
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = DBNull.Value;
-
-                                }
-                                if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio").Count != 0)
-                                {
-
-                                    commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio")[0].InnerText;
-                                }
-                                else
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = DBNull.Value;
-
-                                }
+                                commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE")[0].InnerText;
                             }
-                            if (xmlNodeEncabezado["Emisor"] != null)
+                            else
                             {
-                                if (xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor").Count != 0)
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor")[0].InnerText;
-                                }
-                                else
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = DBNull.Value;
+                                commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = DBNull.Value;
 
-                                }
                             }
-
-                            if (xmlNodeEncabezado["Receptor"] != null)
+                            if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio").Count != 0)
                             {
-                                if (xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep").Count != 0)
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep")[0].InnerText;
-                                }
-                                else
-                                {
-                                    commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = DBNull.Value;
 
-                                }
+                                commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio")[0].InnerText;
+                            }
+                            else
+                            {
+                                commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = DBNull.Value;
+
+                            }
+                        }
+                        if (xmlNodeEncabezado["Emisor"] != null)
+                        {
+                            if (xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor").Count != 0)
+                            {
+                                commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor")[0].InnerText;
+                            }
+                            else
+                            {
+                                commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = DBNull.Value;
+
                             }
                         }
 
+                        if (xmlNodeEncabezado["Receptor"] != null)
+                        {
+                            if (xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep").Count != 0)
+                            {
+                                commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep")[0].InnerText;
+                            }
+                            else
+                            {
+                                commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = DBNull.Value;
 
-                        #endregion
-
-                    
-
-
-
-
-
-
-                    //command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = listaNodosDTE.Count == cantDetalle ? 1 : 0;
-                    //command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = DBNull.Value;
+                            }
+                        }
+                    }
 
 
                     commandDetalle.CommandTimeout = 0;
-                    //connection.Open();
                     commandDetalle.ExecuteNonQuery();
-                    //connection.Close();
 
                 }
 
-
-
-
-
-
-                
-
-
-
-
-                //A pedido del chino donde debe siempre verse como que no tiene oc
-                //bool conOC = false;
-                bool conOC = true;
-                //recepcion
-                //XmlNodeList listaNodosRec = doc.GetElementsByTagName("recepcion");
-                //bool conRec = listaNodosRec.Count == 0 ? false : true;
-                //bool conRec = true;
-
-                // int cantDetalle = 0;
-
-
-
-                //if (conOC)
-                // {
-                //<IdDoc>
-
-
-                // }
-
-
-
-                ///fin detalle
-                ///
                 trans.Commit();
+                connection.Close();
 
-
-                return newProdID;
+                return "OK";
 
             }
             catch
             {
                 trans.Rollback();
-                return 1;
+                connection.Close();
+                return "Error";
             }
-            
-        }
 
-
-        /// <summary>
-        /// Ejecucion SQL
-        /// </summary>
-        /// <param name="cadena"></param>
-        /// <param name="comando"></param>
-        /// <returns></returns>
-        private static DataTable EjecutarSp(string cadena, string comando)
-        {
-            var myConnection = new SqlConnection(cadena);
-
-            try
-            {
-                var myComando = new SqlCommand
-                {
-                    CommandType = CommandType.Text,
-                    CommandText = String.Concat("Select * From ", comando),
-                    CommandTimeout = 0,
-                    Connection = myConnection
-                };
-
-                myConnection.Open();
-                var dt = new DataTable();
-                dt.Load(myComando.ExecuteReader());
-                return dt;
-            }
-            finally
-            {
-                myConnection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Ejecucion SQL
-        /// </summary>
-        /// <param name="cadena"></param>
-        /// <param name="comando"></param>
-        /// <returns></returns>
-        private static void EjecutarSpSinDevolver(string cadena, string comando)
-        {
-            var myConnection = new SqlConnection(cadena);
-
-            try
-            {
-                var myComando = new SqlCommand
-                {
-                    CommandType = CommandType.Text,
-                    CommandText = comando,
-                    CommandTimeout = 0,
-                    Connection = myConnection
-                };
-
-
-                myConnection.Open();
-                myComando.ExecuteNonQuery();
-            }
-            finally
-            {
-                myConnection.Close();
-
-            }
-        }
-
-        static string GetFileName(FileInfo fileInfo)
-        {
-            return Path.GetFileNameWithoutExtension(fileInfo.Name);
         }
 
     }
 }
-

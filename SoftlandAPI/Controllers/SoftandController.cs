@@ -11,7 +11,7 @@ namespace SoftlandAPI.Controllers
     public class SoftandController : ControllerBase
     {
         [HttpGet("Softland")]
-        public int Test()
+        public string Test()
         {
 
             SoftlandIntegration soflandIntegration= new SoftlandIntegration();
@@ -30,10 +30,10 @@ namespace SoftlandAPI.Controllers
             
                
 
-            soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration,cadenaConexion);
+            return soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration,cadenaConexion);
             
 
-            return 1;
+            
            
         }
 
