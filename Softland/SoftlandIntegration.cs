@@ -707,16 +707,17 @@ public class SoftlandIntegration
         }
 
         //Detalle
-        protected static void ProcesaDetalle(XmlDocument doc, string cadenaConexion, int tipoDTE, int folioFactura, string rutEmisor, string rutReceptor, string spDetalle)
+        public void ProcesaDetalle(XmlDocument doc, string cadenaConexion, string spDetalle)
         {
 
             CultureInfo provider = new CultureInfo("es-CL");
             //A pedido del chino donde debe siempre verse como que no tiene oc
-            bool conOC = false;
+            //bool conOC = false;
+            bool conOC = true;
             //recepcion
             XmlNodeList listaNodosRec = doc.GetElementsByTagName("recepcion");
-            bool conRec = listaNodosRec.Count == 0 ? false : true;
-
+            //bool conRec = listaNodosRec.Count == 0 ? false : true;
+            bool conRec = true;
             try
             {
                 int cantDetalle = 0;
@@ -727,7 +728,7 @@ public class SoftlandIntegration
                     {
                         //<IdDoc>
                         int nodo = 0;
-                        XmlNodeList listaNodosDTE = doc.GetElementsByTagName("items");
+                        XmlNodeList listaNodosDTE = doc.GetElementsByTagName("Detalle");
 
                         foreach (XmlNode xmlNode in listaNodosDTE)
                         {
@@ -736,23 +737,89 @@ public class SoftlandIntegration
                             using (SqlCommand command = new SqlCommand(spDetalle, connection))
                             {
                                 command.CommandType = CommandType.StoredProcedure;
-                                if (xmlNode["item_linea"] != null)
+                                if (xmlNode["NroLinDet"] != null)
                                 {
                                     command.Parameters.Add("@NroLinDet", SqlDbType.Int);
-                                    command.Parameters["@NroLinDet"].Value = int.Parse(xmlNode["item_linea"].InnerText);
+                                    command.Parameters["@NroLinDet"].Value = int.Parse(xmlNode["NroLinDet"].InnerText);
                                 }
                                 else
                                 {
                                     command.Parameters.AddWithValue("@NroLinDet", SqlDbType.Int).Value = nodo;
                                 }
                                 nodo++;
-                                command.Parameters.AddWithValue("@TipoDTE ", SqlDbType.Int).Value = tipoDTE;
-                                command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = folioFactura;
-                                command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.Int).Value = rutEmisor;
-                                command.Parameters.AddWithValue("@RUTReceptor", SqlDbType.Int).Value = rutReceptor;
+                                // command.Parameters.AddWithValue("@TipoDTE ", SqlDbType.Int).Value = tipoDTE;
+                                // command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = folioFactura;
+                                // command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.Int).Value = rutEmisor;
+                                //command.Parameters.AddWithValue("@RUTReceptor", SqlDbType.Int).Value = rutReceptor;
+
+                                XmlNodeList listaNodosDTEEncabezado = doc.GetElementsByTagName("Encabezado");
+                                foreach (XmlNode xmlNodeEncabezado in listaNodosDTEEncabezado)
+                                {
+
+                                    if (xmlNodeEncabezado["IdDoc"] != null)
+                                    {
+                                        //((((System.Xml.XmlElementList)(xmlNode["IdDoc"].GetElementsByTagName("TipoDespacho")))).curElem).InnerText
+                                        if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE").Count != 0)
+                                        {
+
+                                            command.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE")[0].InnerText;
+                                        }
+                                        else
+                                        {
+                                            command.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = DBNull.Value;
+
+                                        }
+                                        if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio").Count != 0)
+                                        {
+
+                                            command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio")[0].InnerText;
+                                        }
+                                        else
+                                        {
+                                            command.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = DBNull.Value;
+
+                                        }
+                                    }
+                                    if (xmlNodeEncabezado["Emisor"] != null)
+                                    {
+                                        if (xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor").Count != 0)
+                                        {
+                                            command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor")[0].InnerText;
+                                        }
+                                        else
+                                        {
+                                            command.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = DBNull.Value;
+
+                                        }
+                                    }
+
+                                    if (xmlNodeEncabezado["Receptor"] != null)
+                                    {
+                                        if (xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep").Count != 0)
+                                        {
+                                            command.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep")[0].InnerText;
+                                        }
+                                        else
+                                        {
+                                            command.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = DBNull.Value;
+
+                                        }
+                                    }
+                                }
 
 
-                                if (xmlNode["factor_conversion"] != null)
+
+                                
+
+
+
+
+
+
+
+
+
+                                    if (xmlNode["factor_conversion"] != null)
                                 {
                                     command.Parameters.Add(new SqlParameter("@Factor", SqlDbType.Decimal)
                                     {
@@ -764,9 +831,10 @@ public class SoftlandIntegration
                                 {
                                     command.Parameters.AddWithValue("@Factor", SqlDbType.Decimal).Value = 0;
                                 }
-                                if (xmlNode["monto_linea"] != null)
+                                if (xmlNode["MontoItem"] != null)
                                 {
-                                    command.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = Decimal.Parse(xmlNode["monto_linea"].InnerText.Replace(".", ","), provider);
+                                    var x= Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
+                                    command.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = Decimal.Parse(xmlNode["MontoItem"].InnerText.Replace(".", ","), provider);
                                 }
                                 else
                                 {
@@ -791,8 +859,8 @@ public class SoftlandIntegration
                                     command.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = DBNull.Value;
 
                                 }
-                                command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = listaNodosDTE.Count == cantDetalle ? 1 : 0;
-                                command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = DBNull.Value;
+                                //command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = listaNodosDTE.Count == cantDetalle ? 1 : 0;
+                                //command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = DBNull.Value;
 
 
                                 command.CommandTimeout = 0;
@@ -801,7 +869,12 @@ public class SoftlandIntegration
                                 connection.Close();
                             }
                         }
+
                     }
+
+
+                    /*
+
                     else
                     {
                         if (conRec)
@@ -934,8 +1007,8 @@ public class SoftlandIntegration
                                     command.Parameters.AddWithValue("@MontoItem", SqlDbType.Decimal).Value = DBNull.Value;
                                     command.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = DBNull.Value;
                                     command.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = DBNull.Value;
-                                    command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = 0;
-                                    command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = 99999;
+                                    //command.Parameters.AddWithValue("@Ultimo", SqlDbType.Bit).Value = 0;
+                                    //command.Parameters.AddWithValue("@Recepcion", SqlDbType.BigInt).Value = 99999;
 
                                     command.CommandTimeout = 0;
                                     connection.Open();
@@ -946,6 +1019,7 @@ public class SoftlandIntegration
                             }
                         }
                     }
+                    */
                 }
             }
             catch (Exception ex)

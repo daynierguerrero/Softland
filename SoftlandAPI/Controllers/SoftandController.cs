@@ -28,9 +28,12 @@ namespace SoftlandAPI.Controllers
            
                 string cadenaConexion = "Data Source=.\\SQL2017;Initial Catalog=Softland;Persist Security Info=True;User ID=sa;Password=Versat2022*";
             
-                string spCabecera = "SpCabecera";
+               
 
-            return soflandIntegration.ProcesaCabecera(xmlDocDTE, cadenaConexion, spCabecera);
+             soflandIntegration.ProcesaCabecera(xmlDocDTE, cadenaConexion, "SpCabecera");
+            soflandIntegration.ProcesaDetalle(xmlDocDTE, cadenaConexion,"SpDetalle");
+
+            return 1;
            
         }
 
