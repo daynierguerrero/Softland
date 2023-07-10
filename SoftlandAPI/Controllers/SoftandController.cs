@@ -30,8 +30,8 @@ namespace SoftlandAPI.Controllers
             
                
 
-            soflandIntegration.ProcesaCabecera(xmlDocDTE, xmlDocConfiguration,cadenaConexion, "SpCabecera");
-            //soflandIntegration.ProcesaDetalle(xmlDocDTE, xmlDocConfiguration, cadenaConexion, "SpDetalle");
+            soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration,cadenaConexion);
+            
 
             return 1;
            
