@@ -4,7 +4,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>TipoDTE</nombreEtiqueta>
         <parametro>@TipoDTE</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -13,7 +13,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>Folio</nombreEtiqueta>
         <parametro>@Folio</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -22,7 +22,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>FchEmis</nombreEtiqueta>
         <parametro>@FchEmis</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>DateTime</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -31,7 +31,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>TipoDespacho</nombreEtiqueta>
         <parametro>@TipoDespacho</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -40,7 +40,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>IndTraslado</nombreEtiqueta>
         <parametro>@IndTraslado</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -49,7 +49,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>IndServicio</nombreEtiqueta>
         <parametro>@IndServicio</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -58,7 +58,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>FmaPago</nombreEtiqueta>
         <parametro>@FmaPago</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -67,7 +67,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>FmaPagExp</nombreEtiqueta>
         <parametro>@FmaPagExp</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -76,7 +76,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>FchCancel</nombreEtiqueta>
         <parametro>@FchCancel</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>DateTime</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -85,7 +85,7 @@
         <nombreEtiquetaPadre>IdDoc</nombreEtiquetaPadre>
         <nombreEtiqueta>MntCancel</nombreEtiqueta>
         <parametro>@MntCancel</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -94,7 +94,7 @@
         <nombreEtiquetaPadre>MntPagos</nombreEtiquetaPadre>
         <nombreEtiqueta>FchPago</nombreEtiqueta>
         <parametro>@FchPago</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>DateTime</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -103,7 +103,7 @@
         <nombreEtiquetaPadre>MntPagos</nombreEtiquetaPadre>
         <nombreEtiqueta>MntPago</nombreEtiqueta>
         <parametro>@MntPago</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -112,7 +112,7 @@
         <nombreEtiquetaPadre>MntPagos</nombreEtiquetaPadre>
         <nombreEtiqueta>GlosaPagos</nombreEtiqueta>
         <parametro>@GlosaPagos</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -121,7 +121,7 @@
         <nombreEtiquetaPadre>MntPagos</nombreEtiquetaPadre>
         <nombreEtiqueta>FchVenc</nombreEtiqueta>
         <parametro>@FchVencim</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>DateTime</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -130,7 +130,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>RUTEmisor</nombreEtiqueta>
         <parametro>@RUTEmisor</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -139,7 +139,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>RznSoc</nombreEtiqueta>
         <parametro>@RznSoc</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -148,7 +148,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>GiroEmis</nombreEtiqueta>
         <parametro>@GiroEmis</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -157,7 +157,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>Acteco</nombreEtiqueta>
         <parametro>@Acteco</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -166,7 +166,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>FolioAut</nombreEtiqueta>
         <parametro>@FolioAut</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -175,7 +175,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>FchAut</nombreEtiqueta>
         <parametro>@FchAut</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>DateTime</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -184,7 +184,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>DirOrigen</nombreEtiqueta>
         <parametro>@DirOrigen</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -193,7 +193,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>CmnaOrigen</nombreEtiqueta>
         <parametro>@CmnaOrigen</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -202,7 +202,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>CiudadOrigen</nombreEtiqueta>
         <parametro>@CiudadOrigen</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -211,7 +211,7 @@
         <nombreEtiquetaPadre>Emisor</nombreEtiquetaPadre>
         <nombreEtiqueta>CdgVendedor</nombreEtiqueta>
         <parametro>@CdgVendedor</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -220,7 +220,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>RUTRecep</nombreEtiqueta>
         <parametro>@RUTRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -229,7 +229,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CdgIntRecep</nombreEtiqueta>
         <parametro>@CdgIntRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -238,7 +238,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>RznSocRecep</nombreEtiqueta>
         <parametro>@RznSocRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -247,7 +247,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>Nacionalidad</nombreEtiqueta>
         <parametro>@Nacionalidad</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -256,7 +256,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>GiroRecep</nombreEtiqueta>
         <parametro>@GiroRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -265,7 +265,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>Contacto</nombreEtiqueta>
         <parametro>@Contacto</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -274,7 +274,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CorreoRecep</nombreEtiqueta>
         <parametro>@CorreoRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -283,7 +283,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>DirRecep</nombreEtiqueta>
         <parametro>@DirRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -292,7 +292,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CmnaRecep</nombreEtiqueta>
         <parametro>@CmnaRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -301,7 +301,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CiudadRecep</nombreEtiqueta>
         <parametro>@CiudadRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -310,7 +310,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>DirDest</nombreEtiqueta>
         <parametro>@DirDest</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -319,7 +319,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CmnaDest</nombreEtiqueta>
         <parametro>@CmnaDest</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -328,7 +328,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CiudadDest</nombreEtiqueta>
         <parametro>@CiudadDest</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -337,7 +337,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CodPaisRecep</nombreEtiqueta>
         <parametro>@CodPaisRecep</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -346,7 +346,7 @@
         <nombreEtiquetaPadre>Receptor</nombreEtiquetaPadre>
         <nombreEtiqueta>CodPaisDestin</nombreEtiqueta>
         <parametro>@CodPaisDestin</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -355,7 +355,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>TpoMoneda</nombreEtiqueta>
         <parametro>@TpoMoneda</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>VarChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -364,7 +364,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>MntNeto</nombreEtiqueta>
         <parametro>@MntNeto</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -373,7 +373,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>MntExe</nombreEtiqueta>
         <parametro>@MntExe</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -382,7 +382,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>TasaIVA</nombreEtiqueta>
         <parametro>@TasaIVA</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Decimal</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -391,7 +391,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>IVA</nombreEtiqueta>
         <parametro>@IVA</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -400,7 +400,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>MntTotal</nombreEtiqueta>
         <parametro>@MntTotal</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>Int</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -409,7 +409,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>Observaciones</nombreEtiqueta>
         <parametro>@Observaciones</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>NChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -418,7 +418,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>NombreObra</nombreEtiqueta>
         <parametro>@NombreObra</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>NChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
@@ -427,7 +427,7 @@
         <nombreEtiquetaPadre>Totales</nombreEtiquetaPadre>
         <nombreEtiqueta>DirObra</nombreEtiqueta>
         <parametro>@DirObra</parametro>
-        <tipoDato></tipoDato>
+        <tipoDato>NChar</tipoDato>
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>

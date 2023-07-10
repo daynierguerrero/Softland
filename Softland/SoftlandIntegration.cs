@@ -71,17 +71,57 @@ namespace Softland
 
                             if (xmlNode[nombreEtiquetaPadre] != null)
                             {
-
-                                if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                if (tipoDato == "Int")
                                 {
+                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                    {
 
-                                    commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
+                                    }
+                                    else
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
+
+                                    }
                                 }
-                                else
+                                else if (tipoDato == "DateTime")
                                 {
-                                    commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
+                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DateTime.Parse(xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText);
+                                    }
+                                    else
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
 
+                                    }
                                 }
+                                else if (tipoDato == "VarChar")
+                                {
+                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
+                                    }
+                                    else
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
+
+                                    }
+                                }
+                                else if (tipoDato == "NChar")
+                                {
+                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
+                                    }
+                                    else
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
+
+                                    }
+                                }
+
+                                
 
 
                             }
