@@ -431,5 +431,15 @@
         <formato></formato>
         <valorPorDefecto></valorPorDefecto>
     </field>
+    <field>
+        <procedimiento>SpDetalle</procedimiento>
+        <nombreEtiquetaPadre>NroLinDet</nombreEtiquetaPadre>
+        <nombreEtiqueta>NroLinDet</nombreEtiqueta>
+        <parametro>@NroLinDet</parametro>
+        <tipoDato></tipoDato>
+        <formato></formato>
+        <valorPorDefecto></valorPorDefecto>
+    </field>
+    
    
 </Transform>
