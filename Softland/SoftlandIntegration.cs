@@ -127,6 +127,62 @@ namespace Softland
                                         commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
                                     }
                                 }
+                                else if (tipoDato == "Decimal")
+                                {
+                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
+                                    }
+                                    else
+                                    {
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = DBNull.Value;
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                                if (tipoDato == "Int")
+                                {
+                                  
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
+                                    
+                                }
+
+
+                                else if (tipoDato == "DateTime")
+                                {
+                                  
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
+                                    
+                                }
+
+                                else if (tipoDato == "VarChar")
+                                {
+                                   
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
+                                    
+                                }
+
+
+                                else if (tipoDato == "NChar")
+                                {
+                                   
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
+                                    
+                                }
+                                else if (tipoDato == "Decimal")
+                                {
+                                 
+                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = DBNull.Value;
+
+                                    
+                                }
+
+
+
+
                             }
                         }
                     }
@@ -147,6 +203,14 @@ namespace Softland
                 commandCabecera.Parameters.AddWithValue("@EmisorSello", SqlDbType.VarChar).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@MntFlete", SqlDbType.VarChar).Value = DBNull.Value;
                 commandCabecera.Parameters.AddWithValue("@MntSeguro", SqlDbType.VarChar).Value = DBNull.Value;
+
+
+
+                commandCabecera.Parameters.AddWithValue("@Estadoley", SqlDbType.VarChar).Value = DBNull.Value;
+                commandCabecera.Parameters.AddWithValue("@FechaLey", SqlDbType.DateTime).Value = DBNull.Value;
+                commandCabecera.Parameters.AddWithValue("@FechaRecepcionSII", SqlDbType.DateTime).Value = DBNull.Value;
+                commandCabecera.Parameters.AddWithValue("@CentroCosto", SqlDbType.VarChar).Value = DBNull.Value;
+                commandCabecera.Parameters.AddWithValue("@CuentaContable", SqlDbType.VarChar).Value = DBNull.Value;
 
 
                 var folioReferencia = "";
