@@ -15,8 +15,9 @@ namespace SoftlandAPI.Controllers
         {
 
             SoftlandIntegration soflandIntegration= new SoftlandIntegration();
+
             string configuration = "configurationSoftland.xml";
-            string doc2 = "FA-33-530-77491280-0.xml";
+            string doc2 = "FA-33-537-77491280-0.xml";
             //Creo los Objetos de tipo XMLDocument
             XmlDocument xmlDocDTE = new XmlDocument();
             XmlDocument xmlDocConfiguration = new XmlDocument();
@@ -25,15 +26,15 @@ namespace SoftlandAPI.Controllers
             xmlDocDTE.Load(doc2);
             xmlDocConfiguration.Load(configuration);
 
+            //Cargo la cadena de conexion
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+            var cadenaSQL = builder.GetSection("ConnectionStrings:CadenaSQL").Value;
            
-                string cadenaConexion = "Data Source=.\\SQL2017;Initial Catalog=Softland;Persist Security Info=True;User ID=sa;Password=Versat2022*";
-            
-               
+             
 
-            return soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration,cadenaConexion);
+            return soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
             
-
-            
+                       
            
         }
 
