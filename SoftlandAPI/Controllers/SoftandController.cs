@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Softland;
 using System.Xml;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace SoftlandAPI.Controllers
 {
@@ -23,16 +25,29 @@ namespace SoftlandAPI.Controllers
             XmlDocument xmlDocConfiguration = new XmlDocument();
 
             //Cargo los XML
-            xmlDocDTE.Load(doc2);
+            
             xmlDocConfiguration.Load(configuration);
 
             //Cargo la cadena de conexion
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             var cadenaSQL = builder.GetSection("ConnectionStrings:CadenaSQL").Value;
-           
-             
 
-            return soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
+
+            List<string> listDocuments = new List<string>();
+            foreach (string file in Directory.GetFiles("Documentos/", "*.xml"))
+            {
+                // listDocuments.Add(file);
+
+                xmlDocDTE.Load(file);
+                soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
+
+            }
+
+
+
+
+
+            return "";
             
                        
            
