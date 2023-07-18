@@ -19,12 +19,12 @@ namespace SoftlandAPI.Controllers
             SoftlandIntegration soflandIntegration= new SoftlandIntegration();
 
             string configuration = "configurationSoftland.xml";
-            string doc2 = "FA-33-537-77491280-0.xml";
+            
             //Creo los Objetos de tipo XMLDocument
             XmlDocument xmlDocDTE = new XmlDocument();
             XmlDocument xmlDocConfiguration = new XmlDocument();
 
-            //Cargo los XML
+            //Cargo el XML de configuarcion
             
             xmlDocConfiguration.Load(configuration);
 
@@ -32,12 +32,11 @@ namespace SoftlandAPI.Controllers
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             var cadenaSQL = builder.GetSection("ConnectionStrings:CadenaSQL").Value;
 
-
-            List<string> listDocuments = new List<string>();
+            //recorro los documentos a procesar
+            
             foreach (string file in Directory.GetFiles("Documentos/", "*.xml"))
             {
-                // listDocuments.Add(file);
-
+                
                 xmlDocDTE.Load(file);
                 soflandIntegration.ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
 
