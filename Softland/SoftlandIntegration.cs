@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Policy;
 //using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,36 @@ namespace Softland
     public class SoftlandIntegration
     {
 
-        public string ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
+        public void ProcesarDocumentos()
+        {
+
+            string configuration = "configurationSoftland.xml";
+
+            //Creo los Objetos de tipo XMLDocument
+            XmlDocument xmlDocDTE = new XmlDocument();
+            XmlDocument xmlDocConfiguration = new XmlDocument();
+
+            //Cargo el XML de configuarcion
+
+            xmlDocConfiguration.Load(configuration);
+
+            //Cargo la cadena de conexion
+                        
+            var cadenaSQL = "Data Source=.\\SQL2017;Initial Catalog=Softland;Persist Security Info=True;User ID=sa;Password=Versat2022*";
+
+            //recorro los documentos a procesar
+
+            foreach (string file in Directory.GetFiles("Documentos/", "*.xml"))
+            {
+
+                xmlDocDTE.Load(file);
+                ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
+
+            }
+
+        }
+
+        private string ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
         {
             //int newProdID = 0;
             //Se crea la conexion

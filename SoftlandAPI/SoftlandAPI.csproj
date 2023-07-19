@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Softland\Softland.csproj" />
     <ProjectReference Include="..\Softland_Net462\Softland_Net462.csproj" />
     <ProjectReference Include="..\Softland_Net_Standart\Softland_Net_Standart.csproj" />
   </ItemGroup>
