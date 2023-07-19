@@ -16,7 +16,7 @@ namespace Softland
 {
 
 
-    public class SoftlandIntegration
+    public class SoftlandIntegration_Net462
     {
 
         public string ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)

@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softland", "Softland\Softland.csproj", "{930F2C67-A66E-49DE-B275-9D2AD725AEF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softland", "Softland\Softland.csproj", "{930F2C67-A66E-49DE-B275-9D2AD725AEF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftlandAPI", "SoftlandAPI\SoftlandAPI.csproj", "{88CFFE23-E7E6-4B1D-9A83-822C25465B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftlandAPI", "SoftlandAPI\SoftlandAPI.csproj", "{88CFFE23-E7E6-4B1D-9A83-822C25465B79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softland_Net_Standart", "Softland_Net_Standart\Softland_Net_Standart.csproj", "{A25A32FB-C94D-4642-95CA-D3ADF488E9EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softland_Net462", "Softland_Net462\Softland_Net462.csproj", "{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88CFFE23-E7E6-4B1D-9A83-822C25465B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A25A32FB-C94D-4642-95CA-D3ADF488E9EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25A32FB-C94D-4642-95CA-D3ADF488E9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25A32FB-C94D-4642-95CA-D3ADF488E9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25A32FB-C94D-4642-95CA-D3ADF488E9EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
