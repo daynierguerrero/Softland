@@ -22,7 +22,7 @@ namespace SoftlandAPI.Controllers
 
                 soflandIntegration.ProcesarDocumentos();
 
-                return "OK";
+                return soflandIntegration.ProcesarDocumentos();
             }
             catch (Exception)
             {
@@ -39,8 +39,8 @@ namespace SoftlandAPI.Controllers
             try
             {
                 SoftlandIntegration_Net462 soflandIntegration = new SoftlandIntegration_Net462();
-                soflandIntegration.ProcesarDocumentos();
-                return "OK";
+                
+                return soflandIntegration.ProcesarDocumentos(); 
             }
             catch (Exception)
             {

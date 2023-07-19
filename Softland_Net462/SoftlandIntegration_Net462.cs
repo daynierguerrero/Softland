@@ -20,8 +20,9 @@ namespace Softland
     public class SoftlandIntegration_Net462
     {
 
-        public void ProcesarDocumentos()
+        public string ProcesarDocumentos()
         {
+            int contador = 0;
 
             string configuration = "configurationSoftland.xml";
 
@@ -39,17 +40,21 @@ namespace Softland
 
             //recorro los documentos a procesar
 
-            foreach (string file in Directory.GetFiles("Documentos/", "*.xml"))
+            var documentos = Directory.GetFiles("Documentos/", "*.xml");
+
+            foreach (string file in documentos)
             {
 
                 xmlDocDTE.Load(file);
-                ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
+                contador += ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
 
             }
 
+            return $"{contador} Procesados de {documentos.Length}";
+
         }
 
-        private string ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
+        private int ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
         {
             //int newProdID = 0;
             //Se crea la conexion
@@ -76,7 +81,7 @@ namespace Softland
                 CultureInfo provider = new CultureInfo("es-CL");
 
                 //Obtengo el el listado de nodos donde se especifican los diferentes fields
-                XmlNodeList xmlConfigurationTagFieldList = xmlDocConfiguration.SelectNodes("/Transform/field[position() <= 500]");
+                XmlNodeList xmlConfigurationTagFieldList = xmlDocConfiguration.SelectNodes("/Transform/field");
 
                 //Itero cada uno de los nodos <field>
                 foreach (XmlNode xmlConfigurationTagField in xmlConfigurationTagFieldList)
@@ -245,7 +250,7 @@ namespace Softland
 
                 var folioReferencia = "";
                 XmlNodeList listaNodosDTE1 = doc.GetElementsByTagName("Encabezado/Referencia");
-                if (listaNodosDTE1 != null)
+                if (listaNodosDTE1 != null && listaNodosDTE1.Count > 0)
                 {
                     for (int i = 0; i < listaNodosDTE1.Count; i++)
                     {
@@ -439,14 +444,14 @@ namespace Softland
                 trans.Commit();
                 connection.Close();
 
-                return "OK";
+                return 1;
 
             }
             catch
             {
                 trans.Rollback();
                 connection.Close();
-                return "Error";
+                return 0;
             }
 
         }
