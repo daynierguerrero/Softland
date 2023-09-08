@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -9,9 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SaveOnFolderBox\SaveOnFolderBox.csproj" />
     <ProjectReference Include="..\Softland_Net462\Softland_Net462.csproj" />
     <ProjectReference Include="..\Softland_Net_Standart\Softland_Net_Standart.csproj" />
   </ItemGroup>

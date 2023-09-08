@@ -5,6 +5,8 @@ using System.Xml;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using SaveOnFolderBox;
+using System.Text.Json;
 
 namespace SoftlandAPI.Controllers
 {
@@ -20,8 +22,7 @@ namespace SoftlandAPI.Controllers
             {
                 SoftlandIntegration_Net_Standart soflandIntegration = new SoftlandIntegration_Net_Standart();
 
-                soflandIntegration.ProcesarDocumentos();
-
+                
                 return soflandIntegration.ProcesarDocumentos();
             }
             catch (Exception)
@@ -34,13 +35,31 @@ namespace SoftlandAPI.Controllers
 
 
         [HttpGet("Softland_Net_462")]
-        public string TestNet462()
+        public void TestNet462()
         {
             try
             {
                 SoftlandIntegration_Net462 soflandIntegration = new SoftlandIntegration_Net462();
                 
-                return soflandIntegration.ProcesarDocumentos(); 
+                soflandIntegration.ProcesarDocumentos(); 
+            }
+            catch (Exception)
+            {
+
+               // return "ERROR";
+            }
+
+        }
+
+
+        [HttpGet("GuardarEnCarperta")]
+        public string GuardarEnCarperta()
+        {
+            try
+            {
+                SaveOnFolder save = new SaveOnFolder();
+                 save.Guardar();
+                return "ERROR";
             }
             catch (Exception)
             {
@@ -49,6 +68,7 @@ namespace SoftlandAPI.Controllers
             }
 
         }
+
 
     }
 }

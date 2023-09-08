@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Text.Json.Nodes;
+using System.Text.Json;
 
 namespace Softland
 {
@@ -23,12 +25,14 @@ namespace Softland
 
         public string ProcesarDocumentos()
         {
+
+
             int contador = 0;
 
             string configuration = "configurationSoftland.xml";
 
             //Creo los Objetos de tipo XMLDocument
-            XmlDocument xmlDocDTE = new XmlDocument();
+            
             XmlDocument xmlDocConfiguration = new XmlDocument();
 
             //Cargo el XML de configuarcion
@@ -41,20 +45,21 @@ namespace Softland
 
             //recorro los documentos a procesar y se envian de uno en uno al metodo que los inserta en la BD
 
-            var documentos = Directory.GetFiles("Documentos/", "*.xml");
+            var documentos = Directory.GetFiles("DocumentosJSON/", "*.json");
 
             foreach (string file in documentos)
             {
+                string jsonString = File.ReadAllText($@"{file}");
+                JsonNode documentJSON = JsonNode.Parse(jsonString)!;
 
-                xmlDocDTE.Load(file);
-                contador += ProcesarDocumento(xmlDocDTE, xmlDocConfiguration, cadenaSQL);
+                contador += ProcesarDocumento(documentJSON, xmlDocConfiguration, cadenaSQL);
 
             }
             return $"{contador} Procesados de {documentos.Length}";
 
         }
 
-        private int ProcesarDocumento(XmlDocument doc, XmlDocument xmlDocConfiguration, string cadenaConexion)
+        private int ProcesarDocumento(JsonNode documentJSON, XmlDocument xmlDocConfiguration, string cadenaConexion)
         {
             //Se crea la conexion
             SqlConnection connection = new SqlConnection(cadenaConexion);
@@ -100,124 +105,80 @@ namespace Softland
                     var valorPorDefecto = xmlConfigurationTagField.SelectSingleNode("valorPorDefecto").InnerText;
 
                     //Nombre Etiqueta
-                    var nombreEtiqueta = xmlConfigurationTagField.SelectSingleNode("nombreEtiqueta").InnerText;
+                    var nombreAtributo = xmlConfigurationTagField.SelectSingleNode("nombreEtiqueta").InnerText;
 
                     //Nombre Etiqueta Padre
-                    var nombreEtiquetaPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
+                    var nombreAtributoPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
 
                     //Procesamiento de la Cabecera
                     if (procedimiento == "SpCabecera")
                     {
-                        //Obtengo los nodos del Encbezado
-                        XmlNodeList listaNodosDTE = doc.GetElementsByTagName("Encabezado");
+                        
 
-                        //Recorro los nodos del encabezado
-                        foreach (XmlNode xmlNode in listaNodosDTE)
+                        if (tipoDato == "Int")
                         {
-                            //Se agregan los valores a los parametros del SP Cabecera
-                            if (xmlNode[nombreEtiquetaPadre] != null)
+                            if (!(documentJSON[nombreAtributo] is null))
                             {
-                                if (tipoDato == "Int")
-                                {
-                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
-                                    }
-                                    else
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
-                                    }
-                                }
-                                else if (tipoDato == "DateTime")
-                                {
-                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DateTime.Parse(xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText);
-                                    }
-                                    else
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
-                                    }
-                                }
-                                else if (tipoDato == "VarChar")
-                                {
-                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
-                                    }
-                                    else
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
-                                    }
-                                }
-                                else if (tipoDato == "NChar")
-                                {
-                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
-                                    }
-                                    else
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
-                                    }
-                                }
-                                else if (tipoDato == "Decimal")
-                                {
-                                    if (xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta).Count != 0)
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = xmlNode[nombreEtiquetaPadre].GetElementsByTagName(nombreEtiqueta)[0].InnerText;
-                                    }
-                                    else
-                                    {
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = DBNull.Value;
-
-                                    }
-                                }
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = Convert.ToInt32((documentJSON[nombreAtributo]!).ToString());
                             }
                             else
                             {
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
+                            }
+                        }
+                        else if (tipoDato == "DateTime")
+                        {
+                            if (!(documentJSON[nombreAtributo] is null))
+                            {
 
-                                if (tipoDato == "Int")
-                                {
-                                  
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
-                                    
-                                }
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DateTime.Parse((documentJSON[nombreAtributo]!).ToString());
+                            }
+                            else
+                            {
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
+                            }
+                        }
+                        else if (tipoDato == "VarChar")
+                        {
+                            if (!(documentJSON[nombreAtributo] is null))
+                            {
+                                string x = (documentJSON[nombreAtributo]!).ToString();
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = (documentJSON[nombreAtributo]!).ToString();
+                            }
+                            else
+                            {
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
+                            }
+                        }
+                        else if (tipoDato == "NChar")
+                        {
+                            if (!(documentJSON[nombreAtributo] is null))
+                            {
 
-
-                                else if (tipoDato == "DateTime")
-                                {
-                                  
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.DateTime).Value = DBNull.Value;
-                                    
-                                }
-
-                                else if (tipoDato == "VarChar")
-                                {
-                                   
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = DBNull.Value;
-                                    
-                                }
-
-
-                                else if (tipoDato == "NChar")
-                                {
-                                   
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
-                                    
-                                }
-                                else if (tipoDato == "Decimal")
-                                {
-                                 
-                                        commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = DBNull.Value;
-
-                                    
-                                }
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = (documentJSON[nombreAtributo]!).ToString();
+                            }
+                            else
+                            {
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.NChar).Value = DBNull.Value;
+                            }
+                        }
+                        else if (tipoDato == "Decimal")
+                        {
+                            if (!(documentJSON[nombreAtributo] is null))
+                            {
+                                decimal x = Convert.ToDecimal((documentJSON[nombreAtributo]!).ToString());
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = Convert.ToDecimal((documentJSON[nombreAtributo]!).ToString());
+                            }
+                            else
+                            {
+                                commandCabecera.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = DBNull.Value;
 
                             }
                         }
+
                     }
                 }
+
 
 
                 //Se insertan en null los parametros que no aparecen en el DTE
@@ -247,17 +208,17 @@ namespace Softland
 
 
                 var folioReferencia = "";
-                XmlNodeList listaNodosDTE1 = doc.GetElementsByTagName("Encabezado/Referencia");
-                if (listaNodosDTE1 != null && listaNodosDTE1.Count>0)
+                JsonArray listaNodosDTE1 = documentJSON["IssuedDocumentReferences"]!.AsArray();
+
+                if (listaNodosDTE1 != null && listaNodosDTE1.Count > 0)
                 {
                     for (int i = 0; i < listaNodosDTE1.Count; i++)
                     {
-                        XmlNode listaNodosRef = listaNodosDTE1[i];
-                        if (listaNodosRef["TpoDocRef"].InnerText == "33" || listaNodosRef["TpoDocRef"].InnerText == "34")
-                        {
-                            folioReferencia = listaNodosRef["FolioRef"].InnerText;
-                            break;
-                        }
+                        JsonNode listaNodosRef = listaNodosDTE1[i]!;
+
+                        folioReferencia = listaNodosRef["Folio"]!.ToString();
+                        break;
+
 
                     }
                 }
@@ -278,10 +239,11 @@ namespace Softland
                 int nodo = 0;
 
                 //Se obtienen los nodos Detalle
-                XmlNodeList listaNodosDTEDetalles = doc.GetElementsByTagName("Detalle");
+                
+                JsonArray listaNodosDTEDetalles = documentJSON["IssuedDocumentDetails"]!.AsArray();
 
                 //Se recorren los nodos Detalle
-                foreach (XmlNode xmlNode in listaNodosDTEDetalles)
+                foreach (JsonNode jsonNode in listaNodosDTEDetalles)
                 {
                     //Se crea en command para los detalles
                     SqlCommand commandDetalle = new SqlCommand("spDetalle", connection);
@@ -307,37 +269,41 @@ namespace Softland
                         var valorPorDefecto = xmlConfigurationTagField.SelectSingleNode("valorPorDefecto").InnerText;
 
                         //Nombre Etiqueta
-                        var nombreEtiqueta = xmlConfigurationTagField.SelectSingleNode("nombreEtiqueta").InnerText;
+                        var nombreAtributo = xmlConfigurationTagField.SelectSingleNode("nombreEtiqueta").InnerText;
 
                         //Nombre Etiqueta Padre
-                        var nombreEtiquetaPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
+                        var nombreAtributoPadre = xmlConfigurationTagField.SelectSingleNode("nombreEtiquetaPadre").InnerText;
 
                         //Asigno los parametros al SP Detalle
                         if (procedimiento == "SpDetalle")
                         {
                             if (tipoDato == "Int")
                             {
-                                if (xmlNode[nombreEtiqueta] != null)
+
+
+
+                                if (!(jsonNode![nombreAtributo] is null))
                                 {
-                                    commandDetalle.Parameters.Add(parametro, SqlDbType.Int);
-                                    commandDetalle.Parameters[parametro].Value = int.Parse(xmlNode[nombreEtiqueta].InnerText);
+                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = Convert.ToInt32((jsonNode[nombreAtributo]!).ToString());
                                 }
                                 else
                                 {
-                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = nodo;
+                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.Int).Value = DBNull.Value;
                                 }
-                                nodo++;
+
                             }
 
-                            if (tipoDato == "Decimal" && parametro == "@Factor")
+
+
+                            else if (tipoDato == "Decimal" && parametro == "@Factor")
                             {
-                                if (xmlNode[nombreEtiqueta] != null)
+                                if (!(jsonNode![nombreAtributo] is null))
                                 {
                                     commandDetalle.Parameters.Add(new SqlParameter("@Factor", SqlDbType.Decimal)
                                     {
                                         Precision = 18,
                                         Scale = 6
-                                    }).Value = Decimal.Parse(xmlNode["factor_conversion"].InnerText.Replace(".", ","), provider);
+                                    }).Value = Decimal.Parse((jsonNode["factor_conversion"]!).ToString().Replace(".", ","), provider);
                                 }
                                 else
                                 {
@@ -348,10 +314,10 @@ namespace Softland
 
                             else if (tipoDato == "Decimal" && parametro != "@Factor")
                             {
-                                if (xmlNode[nombreEtiqueta] != null)
+                                if (!(jsonNode![nombreAtributo] is null))
                                 {
-                                    var x = Decimal.Parse(xmlNode[nombreEtiqueta].InnerText.Replace(".", ","), provider);
-                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = Decimal.Parse(xmlNode[nombreEtiqueta].InnerText.Replace(".", ","), provider);
+                                    decimal x = Decimal.Parse((jsonNode[nombreAtributo]!).ToString().Replace(".", ","), provider);
+                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.Decimal).Value = Decimal.Parse((jsonNode[nombreAtributo]!).ToString().Replace(".", ","), provider);
                                 }
                                 else
                                 {
@@ -362,9 +328,9 @@ namespace Softland
 
                             else if (tipoDato == "VarChar")
                             {
-                                if (xmlNode[nombreEtiqueta] != null)
+                                if (!(jsonNode![nombreAtributo] is null))
                                 {
-                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = xmlNode[nombreEtiqueta].InnerText;
+                                    commandDetalle.Parameters.AddWithValue(parametro, SqlDbType.VarChar).Value = jsonNode[nombreAtributo]!.ToString();
                                 }
                                 else
                                 {
@@ -378,67 +344,58 @@ namespace Softland
 
                     }
 
-                    XmlNodeList listaNodosDTEEncabezado = doc.GetElementsByTagName("Encabezado");
-                    foreach (XmlNode xmlNodeEncabezado in listaNodosDTEEncabezado)
+                    if (!(documentJSON["TipoDTE"] is null))
                     {
 
-                        if (xmlNodeEncabezado["IdDoc"] != null)
-                        {
-                            //((((System.Xml.XmlElementList)(xmlNode["IdDoc"].GetElementsByTagName("TipoDespacho")))).curElem).InnerText
-                            if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE").Count != 0)
-                            {
+                        commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = Convert.ToInt32((documentJSON["TipoDTE"]!).ToString());
+                    }
+                    else
+                    {
 
-                                commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("TipoDTE")[0].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = DBNull.Value;
+                        commandDetalle.Parameters.AddWithValue("@TipoDTE", SqlDbType.Int).Value = DBNull.Value;
 
-                            }
-                            if (xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio").Count != 0)
-                            {
+                    }
+                    if (!(documentJSON["Folio"] is null))
+                    {
 
-                                commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = xmlNodeEncabezado["IdDoc"].GetElementsByTagName("Folio")[0].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = DBNull.Value;
+                        commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = Convert.ToInt32((documentJSON["Folio"]!).ToString());
+                    }
+                    else
+                    {
+                        commandDetalle.Parameters.AddWithValue("@Folio", SqlDbType.Int).Value = DBNull.Value;
 
-                            }
-                        }
-                        if (xmlNodeEncabezado["Emisor"] != null)
-                        {
-                            if (xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor").Count != 0)
-                            {
-                                commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Emisor"].GetElementsByTagName("RUTEmisor")[0].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = DBNull.Value;
-
-                            }
-                        }
-
-                        if (xmlNodeEncabezado["Receptor"] != null)
-                        {
-                            if (xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep").Count != 0)
-                            {
-                                commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = xmlNodeEncabezado["Receptor"].GetElementsByTagName("RUTRecep")[0].InnerText;
-                            }
-                            else
-                            {
-                                commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = DBNull.Value;
-
-                            }
-                        }
                     }
 
+                    if (!(documentJSON["RUTEmisor"] is null))
+                    {
+
+                        commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = (documentJSON["RUTEmisor"]!).ToString();
+                    }
+
+                    else
+                    {
+                        commandDetalle.Parameters.AddWithValue("@RUTEmisor", SqlDbType.VarChar).Value = DBNull.Value;
+
+                    
+                    }
+
+                    if (!(documentJSON["RUTReceptor"] is null))
+                    {
+
+                        commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = (documentJSON["RUTReceptor"]!).ToString();
+                    }
+
+                    else
+                    {
+                        commandDetalle.Parameters.AddWithValue("@RUTReceptor", SqlDbType.VarChar).Value = DBNull.Value;
+
+                    }
+                    
 
                     commandDetalle.CommandTimeout = 0;
                     commandDetalle.ExecuteNonQuery();
 
                 }
-
                 trans.Commit();
                 connection.Close();
 
@@ -455,4 +412,245 @@ namespace Softland
         }
 
     }
+
+    public class IssuedDocumentReponse
+    {
+
+
+        public int ID { set; get; }
+        public string TipoDTE { set; get; }
+
+        /// <summary>
+        /// Folio del documento
+        /// </summary>
+
+        public string Folio { set; get; }
+
+        /// <summary>
+        /// Fecha de emision del documento
+        /// </summary>
+
+        public string FchEmis { set; get; }
+
+        /// <summary>
+        /// Forma de Pago del documento
+        /// </summary>
+        public int FmaPago { set; get; }
+
+        /// <summary>
+        /// Rut Emisor del documento
+        /// </summary>
+
+        public string RUTEmisor { set; get; }
+
+        /// <summary>
+        /// Razon social del emisor del documento
+        /// </summary>
+
+        public string RznSoc { set; get; }
+
+        /// <summary>
+        /// Rut del receptor del documento
+        /// </summary>
+
+        public string RUTRecep { set; get; }
+
+        /// <summary>
+        /// Razon social del receptor del documento
+        /// </summary>
+
+        public string RznSocRecep { set; get; }
+
+        /// <summary>
+        /// Monto bruto del documento
+        /// </summary>
+        public long MntBruto { set; get; }
+
+        /// <summary>
+        /// Porciento de descuento
+        /// </summary>
+        public decimal DescuentoPct { set; get; }
+
+        /// <summary>
+        /// Monto del descuento
+        /// </summary>
+        public long DescuentoMonto { set; get; }
+
+        /// <summary>
+        /// Monto Neto del documento
+        /// MntBruto-DescuentoMonto
+        /// </summary>
+        public long MntNeto { set; get; }
+
+        /// <summary>
+        /// Monto Exento
+        /// </summary>
+        public long MntExe { set; get; }
+        /// <summary>
+        /// taza Iva del documento
+        /// </summary>
+        public decimal TasaIVA { set; get; }
+
+        /// <summary>
+        /// Valor del Iva del documento
+        /// </summary>
+        public long IVA { set; get; }
+
+        /// <summary>
+        /// Monto total del documento
+        /// </summary>
+        public long MntTotal { set; get; }
+
+        /// <summary>
+        /// Estado informado al SII debido a revison
+        /// </summary>
+        public int? SIIState { set; get; }
+
+        /// <summary>
+        /// Ultimo usuario que modifica estados del documento
+        /// </summary>
+
+        public string User { set; get; }
+
+        public DateTime LastUpdate { set; get; }
+
+        public IList<IssuedDocumentDetail> IssuedDocumentDetails { get; set; }
+
+        public IList<IssuedDocumentReference> IssuedDocumentReferences { get; set; }
+
+        /// <summary>
+        /// Centro de Costo 
+        /// </summary>
+        public int? IdCostCenter { set; get; }
+
+        /// <summary>
+        /// Cuenta Contable
+        /// </summary>
+        public int? IdAccountingAccount { set; get; }
+
+        public int? ERPSynchronizationStatus { get; set; }
+        public DateTime ERPSynchronizationDatetime { get; set; }
+        public string ERPSynchronizationGlosa { get; set; }
+        public int? ERPSynchronizationRepeatCount { get; set; }
+
+        public class IssuedDocumentDetail
+        {
+            /// <summary>
+            /// Numero de la linea de detalle
+            /// </summary>
+            public int NroLinDet { set; get; }
+
+            /// <summary>
+            /// Codigo del Item
+            /// </summary>
+            public string CdgItem { set; get; }
+
+            /// <summary>
+            /// Nombre del Item
+            /// </summary>
+            public string NmbItem { set; get; }
+
+            /// <summary>
+            /// Descripcion del Item
+            /// </summary>
+            public string DscItem { set; get; }
+
+            /// <summary>
+            /// Cantidad  del Item
+            /// </summary>
+            public int QtyItem { set; get; }
+
+            /// <summary>
+            /// Unidad de medida del Item
+            /// </summary>
+            public string UnmdItem { set; get; }
+
+            /// <summary>
+            /// Precio del Item
+            /// </summary>
+            public decimal PrcItem { set; get; }
+
+            /// <summary>
+            /// Código Impuesto o retenciones
+            /// </summary>
+            public string CodImpAdic { set; get; }
+
+            /// <summary>
+            /// Porciento de Descuento del Item
+            /// </summary>
+            public decimal DescuentoPct { set; get; }
+
+            /// <summary>
+            /// Monto del descuento del Item
+            /// </summary>
+            public long DescuentoMonto { set; get; }
+
+            /// <summary>
+            /// Porciento de recargo del Item
+            /// </summary>
+            public decimal RecargoPct { set; get; }
+
+            /// <summary>
+            /// Monto Recargo del Item
+            /// </summary>
+            public long RecargoMonto { set; get; }
+
+            /// <summary>
+            /// Monto de la Linea
+            /// </summary>
+            public long MontoItem { set; get; }
+
+            /// <summary>
+            /// Centro de costo de la Linea
+            /// </summary>
+            public string CostCenter { set; get; }
+
+            /// <summary>
+            /// Cuenta contable de la linea
+            /// </summary>
+            public string AccountingAccount { set; get; }
+        }
+
+        public class IssuedDocumentReference
+        {
+            /// <summary>
+            /// Numero de la Linea de Referencia
+            /// </summary>
+            public int NroLinRef { set; get; }
+
+            /// <summary>
+            /// Tipo deocumento referencia
+            /// </summary>
+            public string CodDocumentType { get; set; }
+
+            /// <summary>
+            /// Folio documento referencia
+            /// </summary>
+            public string Folio { set; get; }
+
+            /// <summary>
+            /// Codigo motivo del documento referencia
+            /// </summary>
+            public string CodRef { set; get; }
+
+            /// <summary>
+            /// Fecha del documento Referencia
+            /// </summary>
+            public DateTime FchRef { set; get; }
+
+            /// <summary>
+            /// Texto libre razon de la referencia
+            /// </summary>
+            public string RazonRef { set; get; }
+
+            /// <summary>
+            /// Sólo si el documento de referencia es
+            ///de tipo tributario y fue emitido por otro
+            ///contribuyente
+            /// </summary>
+            public string RUTOtr { set; get; }
+        }
+    }
 }
+
+

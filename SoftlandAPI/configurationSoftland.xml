@@ -433,7 +433,7 @@
     </field>
     <field>
         <procedimiento>SpDetalle</procedimiento>
-        <nombreEtiquetaPadre>NroLinDet</nombreEtiquetaPadre>
+        <nombreEtiquetaPadre>IssuedDocumentDetails</nombreEtiquetaPadre>
         <nombreEtiqueta>NroLinDet</nombreEtiqueta>
         <parametro>@NroLinDet</parametro>
         <tipoDato>Int</tipoDato>
@@ -451,7 +451,7 @@
     </field>
     <field>
         <procedimiento>SpDetalle</procedimiento>
-        <nombreEtiquetaPadre>MontoItem</nombreEtiquetaPadre>
+        <nombreEtiquetaPadre>IssuedDocumentDetails</nombreEtiquetaPadre>
         <nombreEtiqueta>MontoItem</nombreEtiqueta>
         <parametro>@MontoItem</parametro>
         <tipoDato>Decimal</tipoDato>
@@ -460,8 +460,8 @@
     </field>
     <field>
         <procedimiento>SpDetalle</procedimiento>
-        <nombreEtiquetaPadre>centrocosto</nombreEtiquetaPadre>
-        <nombreEtiqueta>centrocosto</nombreEtiqueta>
+        <nombreEtiquetaPadre>IssuedDocumentDetails</nombreEtiquetaPadre>
+        <nombreEtiqueta>CostCenter</nombreEtiqueta>
         <parametro>@CentroCosto</parametro>
         <tipoDato>VarChar</tipoDato>
         <formato></formato>

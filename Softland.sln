@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softland_Net_Standart", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softland_Net462", "Softland_Net462\Softland_Net462.csproj", "{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveOnFolderBox", "SaveOnFolderBox\SaveOnFolderBox.csproj", "{B6CE4CF5-865D-4EA2-B86E-02F705D69EFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A4912E1-EFF3-4D1D-AA2B-08903FE20FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6CE4CF5-865D-4EA2-B86E-02F705D69EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CE4CF5-865D-4EA2-B86E-02F705D69EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CE4CF5-865D-4EA2-B86E-02F705D69EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CE4CF5-865D-4EA2-B86E-02F705D69EFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
